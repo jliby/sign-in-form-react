@@ -1,12 +1,14 @@
 import "./App.css";
 import React, { Component } from "react";
+import Graph from "./Graph";
+
 // sign in form with react
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: "",
+      search: "",
       password: "",
       passwordConfirmation: "",
       email: "",
@@ -54,16 +56,16 @@ class App extends Component {
   validatePasswordOnBlur(event) {
     const password = event.target.value;
     const errors = this.state.errors;
-    errors.push(this.validateNotEmpty("Passwrod", password));
+    errors[0] = this.validateNotEmpty("Passwrod", password);
     this.setState({ password, errors });
   }
 
   validatingUserOnBlur = (event) => {
     event.preventDefault();
-    const username = event.target.value;
+    const search = event.target.value;
     const errors = this.state.errors;
-    errors.push(this.validateNotEmpty("Username", username));
-    this.setState({ username, errors });
+    errors[0] = this.validateNotEmpty("Username", search);
+    this.setState({ search, errors });
   };
 
   validatePasswordConfirmtionOnBlur(event) {
@@ -79,40 +81,87 @@ class App extends Component {
   validateEmailOnBlur(event) {
     const email = event.target.value;
     const errors = this.state.errors;
-    errors.push(this.validateEmailFormat("Email", email));
+    errors[0] = this.validateEmailFormat("Email", email);
     this.setState({ email, errors });
   }
   displayFormDemo() {
     return (
-      <div>
-        {
-          // providing action on blur
-        }
-        Username: <input type="text" onBlur={this.validatingUserOnBlur} />
+      <div className="input-container ic1">
+        <div className="input-container ic2">
+          <input
+            type="text"
+            className="input"
+            onBlur={this.validatingUserOnBlur}
+          />
+          <div className="cut" />
+          <label htmlFor="search" className="placeholder">
+            Search
+          </label>
+        </div>
+
         <br />
-        Password: <input type="text" onBlur={this.validatePasswordOnBlur} />
+        <div className="input-container ic2">
+          <input
+            readonly
+            type="text"
+            required={true}
+            readOnly={true}
+            value="Nodes: 70"
+            className="input"
+            onBlur={this.validatePasswordOnBlur}
+          />
+          <div className="cut" />
+          <label htmlFor="password" className="placeholder">
+            Details
+          </label>
+        </div>
+
         <br />
-        Confirmation for password:{" "}
-        <input type="text" onBlur={this.validatePasswordConfirmtionOnBlur} />
+        <div className="input-container ic2">
+          <input
+            readonly
+            type="text"
+            required={true}
+            readOnly={true}
+            value="0.003s"
+            className="input"
+            onBlur={this.validatePasswordOnBlur}
+          />
+          <div className="cut" />
+          <label htmlFor="password" className="placeholder">
+            Time
+          </label>
+        </div>
         <br />
-        Email: <input type="text" onBlur={this.validateEmailOnBlur} />
+        <div className="input-container ic2">
+          {/* <button onClick={this.submitForm} className="submit">
+            Submit
+          </button> */}
+        </div>
+
         <br />
-        <br />
+
         {
           //   // event handler for displaying submission response.
         }
-        <button onClick={this.submitForm}>Submit</button>
+        <button onClick={this.submitForm} className="submit">
+          Search
+        </button>
       </div>
     );
   }
 
   render() {
     return (
-      <div classnName="App">
-        Create a new account
-        {this.displayErrors()}
-        <hr />
-        {this.displayFormDemo()}
+      <div clasName="App">
+        <Graph className="form"></Graph>
+
+        <div className="sidebar">
+          <div className="title">GatorPager</div>
+          <div className="subtitle">A recommended links visualizer</div>
+          {this.displayErrors()}
+          <div className="form">{this.displayFormDemo()}</div>
+        </div>
       </div>
     );
   }
